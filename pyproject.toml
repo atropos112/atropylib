@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "atro-utils"
-version = "0.0.1"
+version = "0.0.8"
 description = ""
 authors = ["atropos <sv7n@pm.me>"]
 readme = "README.md"

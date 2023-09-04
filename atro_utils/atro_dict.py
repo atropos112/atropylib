@@ -5,6 +5,12 @@ import yaml
 from copy import deepcopy
 from pathlib import Path
 
+def types_to_json_handler(obj):
+  if isinstance(obj, Path):
+    return obj.as_posix()
+  else:
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable.")
+
 def merge_dicts(current_dict: dict, updating_dict: dict, overwrite: bool = False, current_name: str | None = None, updating_dict_name: str | None = None) -> dict:
   """
   Updates a dictionary with another dictionary.
@@ -22,16 +28,16 @@ def merge_dicts(current_dict: dict, updating_dict: dict, overwrite: bool = False
     new.update(current_dict)
     
   if current_name and updating_dict_name:
-    logging.info(f"Updating {current_name} with {updating_dict_name} with overwrite set to {overwrite}.")
+    logging.debug(f"Updating {current_name} with {updating_dict_name} with overwrite set to {overwrite}.")
   elif current_name:
-    logging.info(f"Updating {current_name} with overwrite set to {overwrite}.")
+    logging.debug(f"Updating {current_name} with overwrite set to {overwrite}.")
   else:
-    logging.info(f"Updating dictionary with overwrite set to {overwrite}.")
+    logging.debug(f"Updating dictionary with overwrite set to {overwrite}.")
     
-  if all([key is str for key in current_dict.keys()]) and all([key is str for key in updating_dict.keys()]):
+  if all([isinstance(key, str) for key in current_dict.keys()]) and all([isinstance(key, str) for key in updating_dict.keys()]):
     # Convert dictionaries to JSON strings
-    old_json = json.dumps(old, sort_keys=True, indent=4)
-    new_json = json.dumps(new, sort_keys=True, indent=4)
+    old_json = json.dumps(old, default=types_to_json_handler, sort_keys=True, indent=4)
+    new_json = json.dumps(new, default=types_to_json_handler, sort_keys=True, indent=4)
     
     # Perform the diff
     diff = difflib.ndiff(old_json.splitlines(), new_json.splitlines())
@@ -39,18 +45,18 @@ def merge_dicts(current_dict: dict, updating_dict: dict, overwrite: bool = False
     
     
     if len(only_diff) > 0:
-      logging.info("The following changes were made:")
-      logging.info("\n".join(only_diff))  
+      logging.debug("The following changes were made:")
+      logging.debug("\n".join(only_diff))  
     else:
-      logging.info("No changes were made.")
+      logging.debug("No changes were made.")
     
   return new
 
-def log_yaml_load_diff(current: dict, yaml_path: Path, overwrite: bool = False, current_name: str | None = None, yaml_name: str | None = None) -> dict:
+def merge_dict_with_yaml(current: dict, yaml_path: Path, overwrite: bool = False, current_name: str | None = None, yaml_name: str | None = None) -> dict:
   yaml_name = yaml_name or yaml_path.as_posix()
   
   if not yaml_path.exists():
-    logging.info(f"File in {yaml_path.as_posix()} does not exist, skipping.")
+    logging.debug(f"File in {yaml_path.as_posix()} does not exist, skipping.")
     return current
   
   # Load YAML file into a dictionary
