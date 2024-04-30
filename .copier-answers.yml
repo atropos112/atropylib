@@ -1,0 +1,8 @@
+---
+# Changes here will be overwritten by Copier
+_commit: ad15954
+_src_path: git@github.com:atropos112/template-python-pkg.git
+author: atropos
+email: sv7n@pm.me
+project_description: Package containing generic utilities for variety of python usages.
+project_name: atro-utils

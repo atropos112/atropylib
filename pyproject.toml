@@ -1,14 +1,31 @@
 [tool.poetry]
 name = "atro-utils"
-version = "0.0.8"
-description = ""
+version = "0.1.0"
+description = "Package containing generic utilities for variety of python usages."
 authors = ["atropos <sv7n@pm.me>"]
+license = "MIT"
 readme = "README.md"
+packages = [{ include = "atro_utils", from = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.11"
+types-pyyaml = "^6.0.12.20240311"
 
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.0"
+
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocs-include-markdown-plugin = "^6.0.5"
+mkdocs-material = "^9.5.15"
+mkdocstrings = "^0.24.1"
+mkdocstrings-python = "^1.9.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120

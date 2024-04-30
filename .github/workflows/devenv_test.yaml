@@ -1,0 +1,37 @@
+---
+name: Test
+on:
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        required: true
+  pull_request:
+    branches: ["main"]
+  push:
+    branches:
+      - "main"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: github.repository != 'atropos112/template-python-pkg'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v26
+      - uses: actions/cache@v4
+        name: Define a cache for the virtual environment based on the dependencies lock file
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('poetry.lock') }}
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v14
+        with:
+          name: devenv
+      - name: Install devenv.sh
+        run: nix profile install nixpkgs#devenv
+      - name: Run pre-commit hooks and tests 
+        run: devenv test
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.3.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: atropos112/atro-args
