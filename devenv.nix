@@ -11,7 +11,6 @@
       editorconfig-checker.enable = true;
       ruff.enable = true;
       poetry-check.enable = true;
-      poetry-lock.enable = true;
       mypy = {
         enable = true;
         settings.binPath = ''.venv/bin/mypy'';
