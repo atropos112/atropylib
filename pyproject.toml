@@ -24,7 +24,7 @@ pytest-mypy-plugins = "^3.1.0"
 mkdocs = "^1.5.3"
 mkdocs-include-markdown-plugin = "^6.0.5"
 mkdocs-material = "^9.5.15"
-mkdocstrings = "^0.24.1"
+mkdocstrings = "^0.25.0"
 mkdocstrings-python = "^1.9.0"
 
 [build-system]
