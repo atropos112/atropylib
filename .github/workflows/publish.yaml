@@ -49,4 +49,7 @@ jobs:
           git add pyproject.toml
           git commit -m "Update pyproject.toml version to $VERSION"
       - name: Push changes
-        run: git push origin HEAD:main
+        run: |
+          git pull origin main
+          git push origin HEAD:main
+
