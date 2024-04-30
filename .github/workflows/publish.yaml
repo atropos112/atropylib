@@ -50,6 +50,7 @@ jobs:
           git commit -m "Update pyproject.toml version to $VERSION"
       - name: Push changes
         run: |
+          git config pull.rebase true
           git pull origin main
           git push origin HEAD:main
 
