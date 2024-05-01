@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "atro-core"
+version = "0.0.1"
+description = "Package containing generic/reusable content one can reuse in many projects."
+authors = ["atropos <sv7n@pm.me>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "atro_core", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+types-pyyaml = "^6.0.12.20240311"
+
+
+[tool.poetry.group.dev.dependencies]
+basedmypy = "^2.4.0"
+pytest-isort = "^4.0.0"
+pytest = "^8.0.2"
+pytest-mock = "*"
+pytest-cov = ">=4.1,<6.0"
+pytest-mypy-plugins = "^3.1.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocs-include-markdown-plugin = "^6.0.5"
+mkdocs-material = "^9.5.15"
+mkdocstrings = "^0.25.0"
+mkdocstrings-python = "^1.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
