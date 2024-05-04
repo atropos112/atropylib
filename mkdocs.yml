@@ -1,4 +1,5 @@
-site_name: atro-core 
+---
+site_name: atro-core
 theme:
   name: material
   logo: logoatro.png
@@ -36,11 +37,7 @@ plugins:
             docstring_options:
               ignore_init_summary: true
             merge_init_into_class: true
-nav:
-  - Home: index.md
-  - Usage: usage.md
-  - Examples: examples.md
-  - References: references.md
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
