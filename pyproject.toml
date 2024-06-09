@@ -45,3 +45,12 @@ line-length = 140
 [tool.mypy]
 ignore_missing_imports = true
 check_untyped_defs = true
+disable_error_code = [
+  "truthy-bool",
+  "truthy-iterable",
+  "no-untyped-usage",
+  "possibly-undefined",
+  "explicit-override",
+  "redundant-expr",
+  "no-any-expr",
+]
