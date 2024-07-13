@@ -92,6 +92,20 @@ mypyc = ["setuptools (>=50)"]
 reports = ["lxml"]
 
 [[package]]
+name = "basedpyright"
+version = "1.13.1"
+description = "static type checking for Python (but based)"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "basedpyright-1.13.1-py3-none-any.whl", hash = "sha256:c8cc378a0c42d6f80a5148da1cc733d285cc69828904003768ecb2071f31590f"},
+    {file = "basedpyright-1.13.1.tar.gz", hash = "sha256:de8196e5e4ec7db7f482280b45d45444f57caeff3d1a1f4a1ae3aa941274c2d1"},
+]
+
+[package.dependencies]
+nodejs-wheel-binaries = ">=20.13.1"
+
+[[package]]
 name = "basedtyping"
 version = "0.1.4"
 description = "Utilities for basedmypy"
@@ -756,6 +770,22 @@ python-versions = ">=3.5"
 files = [
     {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},
     {file = "mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782"},
+]
+
+[[package]]
+name = "nodejs-wheel-binaries"
+version = "20.15.0"
+description = "unoffical Node.js package"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "nodejs_wheel_binaries-20.15.0-py2.py3-none-macosx_10_15_x86_64.whl", hash = "sha256:16cf7edbb67c57d3eb2482db0d95fb58a9c65170063b48c2fe877b6e129fe802"},
+    {file = "nodejs_wheel_binaries-20.15.0-py2.py3-none-macosx_11_0_arm64.whl", hash = "sha256:1be468912a5f666bf6f035474b1ed87d04e9908ff3ffe82fc485ec67c771c6ff"},
+    {file = "nodejs_wheel_binaries-20.15.0-py2.py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:3d5b3d53f1b992d766190578daf1f719bd412e8df2667dbd3f5864df70c0c99f"},
+    {file = "nodejs_wheel_binaries-20.15.0-py2.py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:036122f5d33f0d9a0160e5a60c2b98fc5cf55308ca826a48a0e0323ffdc4e9c8"},
+    {file = "nodejs_wheel_binaries-20.15.0-py2.py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:6637bcc4aa995adddfa35bd69dd7cc5432497ad35be48f0c1b98cd781790a6f5"},
+    {file = "nodejs_wheel_binaries-20.15.0-py2.py3-none-win_amd64.whl", hash = "sha256:f2ff3240ecda17375f78905ebc25a3d0f055a5c29e1f327a9a37d974af6729a0"},
+    {file = "nodejs_wheel_binaries-20.15.0.tar.gz", hash = "sha256:ef3820341946396abd2ebffc45bbb9386ef84ed51c0d04759f8fe8e50615c85e"},
 ]
 
 [[package]]
@@ -1575,4 +1605,4 @@ bracex = ">=2.1.1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "0ed56edd24ec6f32890c8cbada85904cff44758f1652050a32d7bdfdd2949582"
+content-hash = "aa052f75979df5741c833bcc2415ba5db1d4f225145dc717f33fc5c840724374"

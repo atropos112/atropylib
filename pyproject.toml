@@ -20,6 +20,7 @@ pytest-mock = "*"
 pytest-cov = ">=4.1,<6.0"
 pytest-mypy-plugins = "^3.1.0"
 basedmypy = "^2.4.0"
+basedpyright = "^1.13.1"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.5.3"

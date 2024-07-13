@@ -4,6 +4,7 @@
   config,
   ...
 }: {
+
   pre-commit = {
     hooks = {
       check-merge-conflicts.enable = true;
@@ -52,7 +53,6 @@
         enable = true;
         quiet = true;
       };
-      install.allExtras = true;
     };
   };
 
