@@ -4,13 +4,15 @@
   config,
   ...
 }: {
-
   pre-commit = {
     hooks = {
       check-merge-conflicts.enable = true;
       check-added-large-files.enable = true;
       editorconfig-checker.enable = true;
-      ruff.enable = true;
+      ruff = {
+        enable = true;
+        entry = "ruff format ";
+      };
       poetry-check.enable = true;
       mypy = {
         enable = true;

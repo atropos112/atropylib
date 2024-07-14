@@ -1,6 +1,7 @@
+from atro_core.args.arg import Arg
+from atro_core.args.input_args import InputArgs
 from classes_for_test import DataTestClass
 import pytest
-from atro_core.args import Arg, InputArgs
 
 
 @pytest.mark.parametrize(["arg_type", "missing"], [(str, False), (int, False), (float, True), (bool, True)])
