@@ -11,7 +11,7 @@
       editorconfig-checker.enable = true;
       ruff = {
         enable = true;
-        entry = "ruff format ";
+        entry = "ruff check --fix";
       };
       poetry-check.enable = true;
       mypy = {
