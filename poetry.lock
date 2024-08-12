@@ -93,13 +93,13 @@ reports = ["lxml"]
 
 [[package]]
 name = "basedpyright"
-version = "1.13.1"
+version = "1.15.2"
 description = "static type checking for Python (but based)"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "basedpyright-1.13.1-py3-none-any.whl", hash = "sha256:c8cc378a0c42d6f80a5148da1cc733d285cc69828904003768ecb2071f31590f"},
-    {file = "basedpyright-1.13.1.tar.gz", hash = "sha256:de8196e5e4ec7db7f482280b45d45444f57caeff3d1a1f4a1ae3aa941274c2d1"},
+    {file = "basedpyright-1.15.2-py3-none-any.whl", hash = "sha256:78879dee4fb334da0f78e13de93761ee654ff6b7fe32df454f179772bc37d59f"},
+    {file = "basedpyright-1.15.2.tar.gz", hash = "sha256:c07f4ad7d5b2a2d3194ecdfa311b7a58da8670144873ff54f0d2d40a5d1b5944"},
 ]
 
 [package.dependencies]
