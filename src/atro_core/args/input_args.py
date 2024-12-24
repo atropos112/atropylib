@@ -16,7 +16,6 @@ from pydantic import BaseModel, PrivateAttr, model_validator
 
 T = TypeVar("T")
 
-
 class InputArgs(BaseModel):
     """InputArgs is a model that represents the input arguments of an application. After it is initialized the parse_args method can be called to parse the arguments and return them as a dictionary.
 

@@ -6,6 +6,7 @@ from test_helpers import ENV_FILE
 from atro_core.args import Arg, InputArgs
 
 
+
 def test_populate_pydantic_class():
     # Setup
     input_args = InputArgs(prefix="ATRO_TEST")

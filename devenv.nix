@@ -3,6 +3,7 @@
   lib,
   config,
   ...
+
 }: {
   pre-commit = {
     hooks = {

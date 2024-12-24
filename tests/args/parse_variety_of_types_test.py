@@ -60,7 +60,16 @@ def test_basic_via_cli():
     input_args.add_arg(Arg(name="some_basic3", arg_type=str, help="", required=True))
 
     # Mock cli input args
-    cli_input_args = ["--some_basic", "1", "--some_basic1", "  2  ", "--some_basic2", " true ", "--some_basic3", "hello"]
+    cli_input_args = [
+        "--some_basic",
+        "1",
+        "--some_basic1",
+        "  2  ",
+        "--some_basic2",
+        " true ",
+        "--some_basic3",
+        "hello",
+    ]
 
     # Create model
     model = input_args.get_dict(cli_input_args=cli_input_args)
