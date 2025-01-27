@@ -31,7 +31,7 @@ jobs:
       - name: Run pre-commit hooks and tests
         run: devenv test
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5.3.0
+        uses: codecov/codecov-action@v5.3.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: atropos112/atro-core
