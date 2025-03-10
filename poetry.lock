@@ -84,44 +84,39 @@ extras = ["regex"]
 
 [[package]]
 name = "basedmypy"
-version = "2.9.1"
+version = "2.10.0"
 description = "based static typing for Python"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "basedmypy-2.9.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:c2cbade2d04d2a53c5bc7c7745964f157502e169960076e7dbc9ef6bf4cd5f41"},
-    {file = "basedmypy-2.9.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:86acf505fa67d367c6e5ba737e861863ff1fcf6e1af5345ce0dcc46a7462c33a"},
-    {file = "basedmypy-2.9.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:464478bd283e5ac121da300c51176a44194bd9099d0fdd04df2639ba336826af"},
-    {file = "basedmypy-2.9.1-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:4810befb4abb1cb84f88227be8049ebcbffba96198c3f71e682b85b8d95efa1f"},
-    {file = "basedmypy-2.9.1-cp310-cp310-win_amd64.whl", hash = "sha256:379736cbbf30ba0bba7896496c1ae7a67b6766595dd9bdbed3bffc00f6e02526"},
-    {file = "basedmypy-2.9.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:1cf59b8784878b802717cefc151d2b94606878c627ec07f157d287f510bfafea"},
-    {file = "basedmypy-2.9.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:043c516ebfdd9647b973507b0e98bfefca0d366db01af7615f404eba21f8b7bc"},
-    {file = "basedmypy-2.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:fbd5e85f7919673018aa92eefe119e2436e7b0ee716b1fc8340286ec5cc856d9"},
-    {file = "basedmypy-2.9.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:f53f89382de80dfde18744cb1380ab75010c553b9170d91d7fe4074590140c5a"},
-    {file = "basedmypy-2.9.1-cp311-cp311-win_amd64.whl", hash = "sha256:a32594e4607f1dbe77d2f67e6cce2b6183d70db7f07d0d9643743d9a7e8e47a4"},
-    {file = "basedmypy-2.9.1-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:073a00a4aaea06129ebafa72d573cbf79fd72419f240dadd4254ae919e34c316"},
-    {file = "basedmypy-2.9.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:38bb89c82fa796192534b374e6622879bdbc89b4ccc20cce960fa13b1d16b3df"},
-    {file = "basedmypy-2.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:6bb6bba1e0b69339fa9740a1c35ed8a1fcf0f39e1879f54c246d34bad727d124"},
-    {file = "basedmypy-2.9.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:338616bef32dfd93ec55bd54147a4e40c3ecc82b97411e26e230375183fabcb3"},
-    {file = "basedmypy-2.9.1-cp312-cp312-win_amd64.whl", hash = "sha256:b8a7bc4f83a7811d4d8bb26329ea7f2333fcabc6e71752f7feb0a1c1a6916143"},
-    {file = "basedmypy-2.9.1-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:a3e42415327c49c5971983fe8b9a600380a99ac32bff5e61400d5127b7be6aa6"},
-    {file = "basedmypy-2.9.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:a2dbdb81e14c76fe2086da9de585c2d4c64a537bf233245b4fecb5cbe214133e"},
-    {file = "basedmypy-2.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:03ae13c996c22f5a19c8d6742d31c6d6025e9f3d54cc10d91c41dac5f99d436c"},
-    {file = "basedmypy-2.9.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:e80e8ed2566448433d519b4c6d83b27455596cd1e1f9ac301e99ae72888f4850"},
-    {file = "basedmypy-2.9.1-cp313-cp313-win_amd64.whl", hash = "sha256:41e1a5f6c326f27dedf41ed1d747b7e7b4747bb870d165e92b2d5067fad5349c"},
-    {file = "basedmypy-2.9.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:88a0e3397bdc052c48ac83fc162bdce7db1f2c13ee404e25709cc369dcd04006"},
-    {file = "basedmypy-2.9.1-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:8b867d4f199f40db4e98809783dea02d0dd4c178dd80b22fa995ff32892d714d"},
-    {file = "basedmypy-2.9.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4d645d7434dc5694e926dca3117394a0de0d34c0fee24b73a0977213d2ae97d5"},
-    {file = "basedmypy-2.9.1-cp38-cp38-musllinux_1_2_x86_64.whl", hash = "sha256:89e12db1851f432667fabd6aa1ba2efae4b40b161a68a236e7205a4b9ad349d2"},
-    {file = "basedmypy-2.9.1-cp38-cp38-win_amd64.whl", hash = "sha256:6fb2c71a96aa1f75ca85fd0d3ac6141007e570945a68a4b448f4dea432f4f835"},
-    {file = "basedmypy-2.9.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:0fcda5985678a286516e4cab97945e2487dd2af38b0780b94babc291e15801d4"},
-    {file = "basedmypy-2.9.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:d56d0b321f547fe0e2471518cf712aebb44845c6a777aca8d5a8864a7a205279"},
-    {file = "basedmypy-2.9.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:01413cdb5e360b1fbefacdac1cda217d10c022ef377f31ea692c6b368c125339"},
-    {file = "basedmypy-2.9.1-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:cbacbe5cd0e032d59e64d04019fe376362c7e6f07ee83e76d332736e5bdd3d4d"},
-    {file = "basedmypy-2.9.1-cp39-cp39-win_amd64.whl", hash = "sha256:7b704de6a7d92369732f957825622afe17e2e8c5e8529da953202bb479c75b7a"},
-    {file = "basedmypy-2.9.1-py3-none-any.whl", hash = "sha256:07b4b567d8871c63b6b896784a607fe375481a4881225d124bec1ef296b2a886"},
-    {file = "basedmypy-2.9.1.tar.gz", hash = "sha256:9e1d914650987612279a796dfc3768f96788fc636064e8204af896aa3b16d520"},
+    {file = "basedmypy-2.10.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:531f8c9e18b7b97cc11fd981c529115d2e3282ffff439a6487d83c4c4881aebf"},
+    {file = "basedmypy-2.10.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:0359e002801ed0bdb5ac2d2ce32abdeda2c15d8f0206c8cdef22b3bccc4f75d0"},
+    {file = "basedmypy-2.10.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ac9b8416834fad37a092f957c0caec78d63a09684055597e9c12380c54d6b7bb"},
+    {file = "basedmypy-2.10.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:3a124f7c31d2c65003213e0c60ea2913774bdb122e971fa6eb080d152df5fe61"},
+    {file = "basedmypy-2.10.0-cp310-cp310-win_amd64.whl", hash = "sha256:a7ee1defe6807ce2e2a3f2cd9b7edbb4465c5cad3d822be9dc4caa9f0427da29"},
+    {file = "basedmypy-2.10.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:4704fe9fc164234ccc707a030bda765db57e26baa11975689d488ce37be18c32"},
+    {file = "basedmypy-2.10.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:ae94e57b12e6cf97be83680f4ea039b722bd3d902b36ad45aabf92b5f42b891e"},
+    {file = "basedmypy-2.10.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:bd3f41c8d26bef408b7e3abf6baebf0267fedf3d393e360761a6d38ed770e398"},
+    {file = "basedmypy-2.10.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:43c2a8d859c30c9cdf5037d00d602efc7e0a90966cdff579895726019381e4c9"},
+    {file = "basedmypy-2.10.0-cp311-cp311-win_amd64.whl", hash = "sha256:65775c786349f0d0adfef3f923baf05888a0f2434d5623520a22d47de6d4123a"},
+    {file = "basedmypy-2.10.0-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:671f8772cbd95d5d249566bb0f2666bdd4ec674bf78e89920601cfd5500973ce"},
+    {file = "basedmypy-2.10.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:6999cc9226921aed439d1ac354dfd57841667c7d75e147f699e7b4ccaffb8b13"},
+    {file = "basedmypy-2.10.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:117bfd52b9b986650c88b7522e89209de8e97fc5e0e6903ce734f1e09e92939a"},
+    {file = "basedmypy-2.10.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:e130836271eeed20458b950b30896130019f289f5cb6c2498c6305149bca0c57"},
+    {file = "basedmypy-2.10.0-cp312-cp312-win_amd64.whl", hash = "sha256:4c687678c104a810c570b4b91ea3457af4e17759b65d081cc8e19daf9989679d"},
+    {file = "basedmypy-2.10.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:f1e4800cb4643b49a1fe851bd3eae27c714a86b92ace5f916acd8571f2739843"},
+    {file = "basedmypy-2.10.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:025d7ad9ab60717b50cc87c9c4dcb9e7ba9047b77ccd5312b7f3da3c13dae9c1"},
+    {file = "basedmypy-2.10.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:9933a38b73f5d57e0609a30721d12d40d384a9ff33b0828fe26ac19bbc89e375"},
+    {file = "basedmypy-2.10.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:64ad7c3c13e0504891a70e1a0db49ac78851c0847f7d4770c0b22efe54c20457"},
+    {file = "basedmypy-2.10.0-cp313-cp313-win_amd64.whl", hash = "sha256:1c782fde0a3018ca1a89eeeaaf5d48eb2618cc7e039ac24a59dc08c24597aa22"},
+    {file = "basedmypy-2.10.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:17a81a7f46797d0d05ecd9409ebf9e0b65dd21f2fd9713f69edfe4fc708ab8fe"},
+    {file = "basedmypy-2.10.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:6f52d09cd7e0d8404887407d691b96f5f9de0d635ab7a4249ba3435ccd41dbf1"},
+    {file = "basedmypy-2.10.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f92421e2d34c22cae17cbc487530f743e618ab620972ff385374ad2465aff443"},
+    {file = "basedmypy-2.10.0-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:0db27293bbc50dd1951e232b41773d151b23004e0090c7fc89125774d854e754"},
+    {file = "basedmypy-2.10.0-cp39-cp39-win_amd64.whl", hash = "sha256:80319b464dbac8caa4203088824efb547cc5b41f3b613bf7cdc792b89cd18aba"},
+    {file = "basedmypy-2.10.0-py3-none-any.whl", hash = "sha256:05047ee1821ba4026c21029b342b903883aac8520961bb9d021f49721428d029"},
+    {file = "basedmypy-2.10.0.tar.gz", hash = "sha256:85dd20aa8de401982073970a90a78a5d47442251140401b4863f0018247e533f"},
 ]
 
 [package.dependencies]
