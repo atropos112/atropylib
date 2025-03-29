@@ -6,42 +6,43 @@ on:
       - "v*.*.*"
 jobs:
   test:
-    uses: atropos112/template-python-pkg/.github/workflows/devenv_test.yaml@main
+    uses: atropos112/atropylib/.github/workflows/devenv_test.yaml@main
     if: github.repository != 'atropos112/template-python-pkg'
     secrets: inherit
   publish:
     runs-on: ubuntu-latest
-    if: github.repository != 'atropos112/template-python-pkg'
     needs: test
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
+    defaults:
+      run:
+        shell: devenv shell bash -- -e {0}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: cachix/install-nix-action@v30
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v14
         with:
-          python-version: 3.12
-      - name: Install poetry
-        uses: abatilo/actions-poetry@v4
-      - name: Setup a local virtual environment (if no poetry.toml file)
-        run: |
-          poetry config virtualenvs.create true --local
-          poetry config virtualenvs.in-project true --local
-          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          name: devenv
       - uses: actions/cache@v4
         name: Define a cache for the virtual environment based on the dependencies lock file
         with:
           path: ./.venv
-          key: venv-${{ hashFiles('poetry.lock') }}
-      - name: Install the project dependencies
-        run: poetry install
-      - name: Set Poetry Version
+          key: venv-${{ hashFiles('uv.lock') }}
+      - name: Install devenv.sh
+        shell: bash
+        run: nix profile install nixpkgs#devenv
+      - name: Run pre-commit hooks and tests
+        run: devenv test
+      - name: Set PyProject Version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          poetry version $VERSION
+          uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION
+      - name: Build 
+        run: uv build  
       - name: Publish
-        run: poetry publish --build
+        run: uv publish 
       - name: Commit updated pyproject.toml
         run: |
           git config --local user.email "action@github.com"

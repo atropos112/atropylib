@@ -1,0 +1,2 @@
+class DeveloperError(Exception):
+    pass
