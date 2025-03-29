@@ -22,7 +22,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = ["basedmypy>=2.10.0", "pytest>=8.3.5"]
+dev = [
+    "basedmypy>=2.10.0",
+    "pytest-cov>=6.0.0",
+    "pytest-mypy-plugins>=3.2.0",
+    "pytest>=8.3.5",
+]
 
 [tool.uv.sources]
 atropylib = { workspace = true }
