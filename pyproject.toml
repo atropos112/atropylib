@@ -26,3 +26,31 @@ dev = ["basedmypy>=2.10.0", "pytest>=8.3.5"]
 
 [tool.uv.sources]
 atropylib = { workspace = true }
+
+[tool.mypy]
+namespace_packages = true
+ignore_missing_imports = true
+check_untyped_defs = true
+python_executable = "$VIRTUAL_ENV/bin/python"
+python_version = "3.11"
+disable_error_code = [
+  "truthy-bool",
+  "truthy-iterable",
+  "no-untyped-usage",
+  "possibly-undefined",
+  "explicit-override",
+  "redundant-expr",
+  "no-any-expr",
+  "no-any-explicit",
+  "no-untyped-call",
+  "valid-type",
+  "import-untyped",
+  "no-any-unimported",
+  "no-any-return",
+  "no-any-decorated",
+  "misc",
+  "no-subclass-any",
+  "call-arg",
+  "any",
+  "explicit-any",
+]

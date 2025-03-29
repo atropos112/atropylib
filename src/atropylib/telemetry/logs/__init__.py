@@ -25,6 +25,11 @@ HANDLER: LineFixLoggingHandler | None = None
 
 
 class StructuredLogger:
+    def __init__(self, name: str, ctx: dict[str, Any] | None = None):
+        self._logger = logging.getLogger(name)
+        self._handler_added: bool = False
+        self._ctx: dict[str, Any] = ctx or {}
+
     def _lazy_init(self):
         global LOGGER_PROVIDER
 
@@ -34,11 +39,6 @@ class StructuredLogger:
         if not self._handler_added:
             add_otlp_handler(self._logger)
             self._handler_added = True
-
-    def __init__(self, name: str, ctx: dict[str, Any] | None = None):
-        self._logger = logging.getLogger(name)
-        self._handler_added = False
-        self._ctx = ctx or {}
 
     def bind(self, **ctx: Any) -> "StructuredLogger":
         return StructuredLogger(self._logger.name, self._ctx | ctx)
