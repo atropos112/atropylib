@@ -20,7 +20,7 @@ jobs:
         shell: devenv shell bash -- -e {0}
     steps:
       - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - uses: cachix/cachix-action@v14
         with:
