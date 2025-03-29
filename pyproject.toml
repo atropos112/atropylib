@@ -1,58 +1,27 @@
-[tool.poetry]
-name = "atro-core"
-version = "0.0.1"
-description = "Package containing generic/reusable content one can reuse in many projects."
-authors = ["atropos <sv7n@pm.me>"]
-license = "MIT"
+[project]
+name = "pycore"
+version = "0.1.0"
+description = ""
 readme = "README.md"
-packages = [{ include = "atro_core", from = "src" }]
-
-[tool.poetry.dependencies]
-python = "^3.11"
-pydantic = "^2.7.1"
-rope = "^1.13.0"
-ipython = ">=8.31,<10.0"
-
-[tool.poetry.group.dev.dependencies]
-types-pyyaml = "^6.0.12.20240311"
-pytest-isort = "^4.0.0"
-pytest = "^8.0.2"
-pytest-mock = "*"
-pytest-cov = ">=4.1,<7.0"
-pytest-mypy-plugins = "^3.1.0"
-basedmypy = "^2.4.0"
-basedpyright = "^1.13.1"
-
-[tool.poetry.group.docs.dependencies]
-mkdocs = "^1.5.3"
-mkdocs-include-markdown-plugin = ">=6.0.5,<8.0.0"
-mkdocs-material = "^9.5.15"
-mkdocstrings = ">=0.25,<0.30"
-mkdocstrings-python = "^1.9.0"
-
-[tool.poetry.group.args.dependencies]
-python-dotenv = "^1.0.1"
-
-
-[tool.poetry.group.logging.dependencies]
-stackprinter = "^0.2.12"
+authors = [
+    { name = "atropos", email = "sv7n@pm.me" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "opentelemetry-instrumentation-asyncio>=0.52b1",
+    "opentelemetry-instrumentation-click>=0.52b1",
+    "opentelemetry-instrumentation-fastapi>=0.52b1",
+    "opentelemetry-instrumentation-logging>=0.52b1",
+    "opentelemetry-instrumentation-requests>=0.52b1",
+    "pydantic>=2.11.1",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.ruff]
-line-length = 140
-
-[tool.mypy]
-ignore_missing_imports = true
-check_untyped_defs = true
-disable_error_code = [
-  "truthy-bool",
-  "truthy-iterable",
-  "no-untyped-usage",
-  "possibly-undefined",
-  "explicit-override",
-  "redundant-expr",
-  "no-any-expr",
+[dependency-groups]
+dev = [
+    "basedmypy>=2.10.0",
+    "pytest>=8.3.5",
 ]

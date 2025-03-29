@@ -34,4 +34,4 @@ jobs:
         uses: codecov/codecov-action@v5.4.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: atropos112/atro-core
+          slug: atropos112/pycore
