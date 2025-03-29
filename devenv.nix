@@ -42,7 +42,7 @@ in {
       };
       mypy = {
         enable = true;
-        settings.binPath = ''.devenv/state/venv/bin/mypy'';
+        package = pkgu.basedmypy;
         excludes = ["tests/.*"];
       };
     };
