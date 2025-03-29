@@ -43,6 +43,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add pyproject.toml
+          git status
           git commit -m "Update pyproject.toml version to $VERSION"
           # Push changes
           git config pull.rebase true
