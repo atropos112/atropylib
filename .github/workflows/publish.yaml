@@ -15,9 +15,6 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
-    defaults:
-      run:
-        shell: devenv shell bash -- -e {0}
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
@@ -31,26 +28,23 @@ jobs:
           path: ./.venv
           key: venv-${{ hashFiles('uv.lock') }}
       - name: Install devenv.sh
-        shell: bash
         run: nix profile install nixpkgs#devenv
-      - name: Run pre-commit hooks and tests
-        run: devenv test
-      - name: Set PyProject Version
+      - name: Bump-Build-Publish
+        shell: devenv shell bash -- -e {0}
         run: |
+          # Bump version in pyproject.toml
           VERSION=${GITHUB_REF#refs/tags/v}
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION
-      - name: Build 
-        run: uv build  
-      - name: Publish
-        run: uv publish 
-      - name: Commit updated pyproject.toml
-        run: |
+          # Build
+          uv build  
+          # Publish
+          uv publish 
+          # Commit updated pyproject.toml
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add pyproject.toml
           git commit -m "Update pyproject.toml version to $VERSION"
-      - name: Push changes
-        run: |
+          # Push changes
           git config pull.rebase true
           git pull origin main
           git push origin HEAD:main

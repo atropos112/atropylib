@@ -29,6 +29,7 @@ jobs:
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: Run pre-commit hooks and tests
+        shell: devenv shell bash -- -e {0}
         run: devenv test
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5.4.0
