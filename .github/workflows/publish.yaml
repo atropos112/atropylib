@@ -10,13 +10,8 @@ on:
     tags:
       - "v*.*.*"
 jobs:
-  test:
-    uses: atropos112/atropylib/.github/workflows/devenv_test.yaml@main
-    if: github.repository != 'atropos112/template-python-pkg'
-    secrets: inherit
   publish:
     runs-on: ubuntu-latest
-    needs: test
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
@@ -34,6 +29,8 @@ jobs:
           key: venv-${{ hashFiles('uv.lock') }}
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
+      - name: Run pre-commit hooks and tests
+        run: devenv test
       - name: Bump-Build-Publish
         shell: devenv shell bash -- -e {0}
         run: |
@@ -42,8 +39,6 @@ jobs:
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION
           # Build
           uv build  
-          # Publish
-          uv publish 
           # Commit updated pyproject.toml
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -53,4 +48,5 @@ jobs:
           git config pull.rebase true
           git pull origin main
           git push origin HEAD:main
-
+          # Publish
+          uv publish 
