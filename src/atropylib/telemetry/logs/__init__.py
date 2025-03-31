@@ -139,3 +139,23 @@ def init_logger_provider(service_name: str | None = None):
         LoggingInstrumentor().instrument(set_logging_format=False)
 
         root.addHandler(HANDLER)
+
+
+def init_test_logger_provider():
+    global LOGGER_PROVIDER, HANDLER
+
+    if not LOGGER_PROVIDER:
+        LOGGER_PROVIDER = LoggerProvider()
+        set_logger_provider(LOGGER_PROVIDER)
+
+        exporter_console = ConsoleLogExporter(formatter=log_format)
+        LOGGER_PROVIDER.add_log_record_processor(SimpleLogRecordProcessor(exporter_console))
+
+    if not HANDLER:
+        root = logging.getLogger()
+        root.handlers.clear()
+
+        HANDLER = LineFixLoggingHandler(level=logging.INFO, logger_provider=LOGGER_PROVIDER)
+        LoggingInstrumentor().instrument(set_logging_format=False)
+
+        root.addHandler(HANDLER)
