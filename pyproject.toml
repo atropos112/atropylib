@@ -26,6 +26,7 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
   "basedmypy>=2.10.0",
+  "basedpyright>=1.28.5",
   "debugpy>=1.8.14",
   "pytest-cov>=6.0.0",
   "pytest-mypy-plugins>=3.2.0",
@@ -37,9 +38,15 @@ atropylib = { workspace = true }
 
 [tool.mypy]
 plugins = ['pydantic.mypy']
+follow_imports = "silent"
 namespace_packages = true
 ignore_missing_imports = true
 check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+no_implicit_reexport = true
+disallow_untyped_defs = true
 python_executable = "$VIRTUAL_ENV/bin/python"
 python_version = "3.11"
 disable_error_code = [

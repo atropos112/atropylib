@@ -30,7 +30,7 @@ class StructuredLogger:
         self._handler_added: bool = False
         self._ctx: dict[str, Any] = ctx or {}
 
-    def _lazy_init(self):
+    def _lazy_init(self) -> None:
         global LOGGER_PROVIDER
 
         if not LOGGER_PROVIDER:
@@ -85,7 +85,7 @@ def log_format(record: LogRecord) -> str:
     return dumps(msg, indent=4) + "\n"
 
 
-def shutdown_logger_provider():
+def shutdown_logger_provider() -> None:
     global APP_SHUTDOWN
     APP_SHUTDOWN = True
 
@@ -106,7 +106,7 @@ def shutdown_logger_provider():
         logger.handlers.clear()
 
 
-def add_otlp_handler(logger: logging.Logger):
+def add_otlp_handler(logger: logging.Logger) -> None:
     global LOGGER_PROVIDER, HANDLER
 
     if not LOGGER_PROVIDER:
@@ -118,7 +118,7 @@ def add_otlp_handler(logger: logging.Logger):
     logger.setLevel(logging.INFO)
 
 
-def init_logger_provider(service_name: str | None = None):
+def init_logger_provider(service_name: str | None = None) -> None:
     global LOGGER_PROVIDER, HANDLER
 
     if not LOGGER_PROVIDER:
@@ -141,7 +141,7 @@ def init_logger_provider(service_name: str | None = None):
         root.addHandler(HANDLER)
 
 
-def init_test_logger_provider():
+def init_test_logger_provider() -> None:
     global LOGGER_PROVIDER, HANDLER
 
     if not LOGGER_PROVIDER:

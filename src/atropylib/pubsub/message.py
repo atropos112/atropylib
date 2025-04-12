@@ -42,8 +42,8 @@ class Message(BaseModel):
         Convert a NATS message to a Message object.
         """
         data = msg.data.decode("utf-8")
-        json_data: dict[str, Any] = json.loads(data)  # type: ignore[assignment]
-        payload: dict[str, Any] = json.loads(base64.b64decode(json_data["Payload"]).decode())  # type: ignore[assignment]
+        json_data: dict[str, Any] = json.loads(data)
+        payload: dict[str, Any] = json.loads(base64.b64decode(json_data["Payload"]).decode())
         uuid: str = json_data["UUID"]
         msg_metadata: dict[str, str] = json_data["Metadata"]
 
