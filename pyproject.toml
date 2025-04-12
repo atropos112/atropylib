@@ -15,6 +15,8 @@ dependencies = [
   "opentelemetry-instrumentation-logging>=0.52b1",
   "opentelemetry-instrumentation-requests>=0.52b1",
   "pydantic>=2.11.1",
+  "nats-py>=2.10.0",
+  "nest-asyncio>=1.6.0",
 ]
 
 [build-system]
@@ -23,16 +25,18 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "basedmypy>=2.10.0",
-    "pytest-cov>=6.0.0",
-    "pytest-mypy-plugins>=3.2.0",
-    "pytest>=8.3.5",
+  "basedmypy>=2.10.0",
+  "debugpy>=1.8.14",
+  "pytest-cov>=6.0.0",
+  "pytest-mypy-plugins>=3.2.0",
+  "pytest>=8.3.5",
 ]
 
 [tool.uv.sources]
 atropylib = { workspace = true }
 
 [tool.mypy]
+plugins = ['pydantic.mypy']
 namespace_packages = true
 ignore_missing_imports = true
 check_untyped_defs = true

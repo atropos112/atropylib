@@ -2,11 +2,8 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }: let
-  pkgu = import inputs.nixpkgs-unstable {system = pkgs.stdenv.system;};
-
   helpScript = ''
     echo
     echo 🦾 Useful project scripts:
@@ -18,16 +15,9 @@
 
   '';
 in {
-  packages = with pkgu; [
-    python311
-  ];
   env = {
-    NIX_LD_LIBRARY_PATH = lib.makeLibraryPath (with pkgu; [
-      python311
-      zlib
-      stdenv.cc.cc
-    ]);
-    NIX_LD = builtins.readFile "${pkgu.stdenv.cc}/nix-support/dynamic-linker";
+    ATRO_NATS_URL = "nats://nats:4222";
+    ATRO_SERVICE_NAME = "testing";
   };
 
   pre-commit = {
@@ -42,7 +32,7 @@ in {
       };
       mypy = {
         enable = true;
-        package = pkgu.basedmypy;
+        entry = "mypy";
         excludes = ["tests/.*"];
       };
     };
@@ -63,7 +53,12 @@ in {
 
   languages.python = {
     enable = true;
-    package = pkgu.python311;
+    version = "3.11"; # Have to use that so the libraries work
+    libraries = with pkgs; [
+      zlib
+      libgcc # Pandas, numpy etc.
+      stdenv.cc.cc
+    ];
     uv = {
       enable = true;
       package = pkgs.uv;
