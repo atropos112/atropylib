@@ -1,6 +1,6 @@
 [project]
 name = "atropylib"
-version = "0.0.12"
+version = "0.0.13"
 description = ""
 readme = "README.md"
 authors = [{ name = "atropos", email = "sv7n@pm.me" }]
