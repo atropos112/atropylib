@@ -22,6 +22,7 @@ from atropylib.telemetry.utils import get_resource
 LOGGER_PROVIDER: LoggerProvider | None = None
 APP_SHUTDOWN: bool = False
 HANDLER: LineFixLoggingHandler | None = None
+LOG_LEVEL: int = logging.INFO
 
 
 class StructuredLogger:
@@ -33,10 +34,7 @@ class StructuredLogger:
     def _lazy_init(self) -> None:
         global LOGGER_PROVIDER
 
-        if not LOGGER_PROVIDER:
-            raise DeveloperError("Logger provider not initialized, but it should have been via init logger provider.")
-
-        if not self._handler_added:
+        if LOGGER_PROVIDER and not self._handler_added:
             add_otlp_handler(self._logger)
             self._handler_added = True
 
@@ -115,11 +113,13 @@ def add_otlp_handler(logger: logging.Logger) -> None:
         raise DeveloperError("Handler not initialized, but it should have been via init logger provider.")
 
     logger.addHandler(HANDLER)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(LOG_LEVEL)
 
 
-def init_logger_provider(service_name: str | None = None) -> None:
-    global LOGGER_PROVIDER, HANDLER
+def init_logger_provider(service_name: str | None = None, level: int = logging.INFO) -> None:
+    global LOGGER_PROVIDER, HANDLER, LOG_LEVEL
+
+    LOG_LEVEL = level
 
     if not LOGGER_PROVIDER:
         resource = get_resource(service_name)
@@ -135,13 +135,13 @@ def init_logger_provider(service_name: str | None = None) -> None:
         root = logging.getLogger()
         root.handlers.clear()
 
-        HANDLER = LineFixLoggingHandler(level=logging.INFO, logger_provider=LOGGER_PROVIDER)
+        HANDLER = LineFixLoggingHandler(level=LOG_LEVEL, logger_provider=LOGGER_PROVIDER)
         LoggingInstrumentor().instrument(set_logging_format=False)
 
         root.addHandler(HANDLER)
 
 
-def init_test_logger_provider() -> None:
+def init_test_logger_provider(level: int = logging.INFO) -> None:
     global LOGGER_PROVIDER, HANDLER
 
     if not LOGGER_PROVIDER:
@@ -155,7 +155,7 @@ def init_test_logger_provider() -> None:
         root = logging.getLogger()
         root.handlers.clear()
 
-        HANDLER = LineFixLoggingHandler(level=logging.INFO, logger_provider=LOGGER_PROVIDER)
+        HANDLER = LineFixLoggingHandler(level=level, logger_provider=LOGGER_PROVIDER)
         LoggingInstrumentor().instrument(set_logging_format=False)
 
         root.addHandler(HANDLER)

@@ -2,6 +2,8 @@
 Example usage
 
 async def main():
+    init_logger_provider(level=logging.DEBUG)
+
     # Example usage
     nats_client = NATSClient()
 
@@ -14,44 +16,18 @@ async def main():
         subject="test",
     )
 
-    from time import time
-
-    start = time()
     await nats_client.publish("test", message)
-    end = time()
-    print(f"Published message in {end - start} seconds")
-
-    start = time()
     await nats_client.publish("test", message)
-    end = time()
-    print(f"Published message in {end - start} seconds")
-
-    start = time()
     await nats_client.publish("test", message)
-    end = time()
-    print(f"Published message in {end - start} seconds")
-
-    start = time()
-    await nats_client.publish("blah", message)
-    end = time()
-    print(f"Published message in {end - start} seconds")
-
-    start = time()
-    await nats_client.publish("blah", message)
-    end = time()
-    print(f"Published message in {end - start} seconds")
-
-    start = time()
     await nats_client.publish("test", message)
-    end = time()
-    print(f"Published message in {end - start} seconds")
+    await nats_client.publish("test", message)
 
-    print("Waiting for message...")
-    counter = 0
-    async for i in nats_client.subscribe("test"):
-        print(i)
-        counter += 1
-        print(counter)
+    async for msg in nats_client.subscribe(
+        "test",
+        DeliverPolicy.BY_START_TIME,
+        timedelta(minutes=3),
+    ):
+        print(msg)
 
 
 asyncio.run(main())
@@ -59,9 +35,11 @@ asyncio.run(main())
 
 import asyncio
 import os
+from datetime import datetime, timedelta
 from functools import cached_property
 from typing import Any, AsyncGenerator
 
+import pytz
 from nats import connect
 from nats.aio.client import Client as NATS
 from nats.js import JetStreamContext
@@ -69,8 +47,11 @@ from nats.js.api import AckPolicy, ConsumerConfig, DeliverPolicy
 from pydantic import BaseModel, PrivateAttr
 
 from atropylib.pubsub.message import Message
+from atropylib.telemetry.logs import StructuredLogger
 
 _SVC_NAME = os.getenv("ATRO_SVC_NAME", "")
+
+UTC_TZ = pytz.utc
 
 
 async def get_nats_client(nats_url: str | None = None) -> NATS:
@@ -108,6 +89,7 @@ class NATSClient(BaseModel):
 
     nats_url: str | None = None
     _added_streams: set[str] = PrivateAttr(default_factory=set)
+    _logger: StructuredLogger = PrivateAttr(default_factory=lambda: StructuredLogger("NATS_Client"))
 
     @cached_property
     def _nc(self) -> NATS:
@@ -117,8 +99,15 @@ class NATSClient(BaseModel):
         import nest_asyncio
 
         nest_asyncio.apply()
+        if self.nats_url is None:
+            self.nats_url = os.getenv("ATRO_NATS_URL", None)
+
         coro = get_nats_client(self.nats_url)
         nc = asyncio.run(coro)
+
+        global _SVC_NAME
+        self._logger = self._logger.bind(nats_url=self.nats_url, service_name=_SVC_NAME)
+        self._logger.info("Connected to NATS server")
         return nc
 
     @cached_property
@@ -135,6 +124,15 @@ class NATSClient(BaseModel):
         If `create_stream_if_not_exist` is True, it will create the stream if it does not exist. This causes a
         performance hit of ~1ms on the first publish only.
         """
+        self._logger.debug(
+            "Publishing message to NATS",
+            subject=subject,
+            msg_id=message.uuid,
+            msg_time=message.time.isoformat(),
+            msg_source=message.source,
+            msg_subject=message.subject,
+        )
+
         if create_stream_if_not_exist and subject not in self._added_streams:
             # INFO: The stream may not exist. We try to create it by calling add_stream. This is only really
             # needed on the first publish. After that, we can assume the stream exists.
@@ -155,6 +153,7 @@ class NATSClient(BaseModel):
         self,
         subject: str,
         deliver_policy: DeliverPolicy | None = None,
+        start: timedelta | None = None,
     ) -> AsyncGenerator[Message, Any]:
         """
         Subscribe to a subject in NATS JetStream and yield messages.
@@ -162,20 +161,35 @@ class NATSClient(BaseModel):
         If you want
         - all messages, set `deliver_policy` to DeliverPolicy.ALL.
         - new messages only, set `deliver_policy` to DeliverPolicy.NEW.
-        - messages starting from a specific time, set `deliver_policy` to
-          DeliverPolicy.BY_START_TIME and `start_time` to the desired start time.
-
-        Coundn't get BY_START_TIME to work. If set timestamp must be provided in the
-        ConsumerConfig, but when provided it outputs an error:
-        "invalid JSON: Time.UnmarshalJSON: input is not a JSON string"
+        - messages starting from a specific time, provide a `start` timedelta (from now).
+          Optionally you can set `deliver_policy` to DeliverPolicy.BY_START_TIME, although
+          leaving it as None will work too (as providing a start time will set the deliver_policy to BY_START_TIME).
+          Do note, providing a different deliver_policy will raise an error.
         """
         global _SVC_NAME
+
+        if start is None:
+            if deliver_policy is DeliverPolicy.BY_START_TIME:
+                raise ValueError("BY_START_TIME requires a start time.")
+
+            opt_start_time = None
+        else:
+            if deliver_policy and deliver_policy != DeliverPolicy.BY_START_TIME:
+                raise ValueError(
+                    "You've set a start time but not BY_START_TIME as the deliver_policy."
+                    "Either leave delivery_policy as None or set it to BY_START_TIME if you want to use a start time."
+                )
+
+            opt_start_time_dt = datetime.now(tz=UTC_TZ) - start
+            opt_start_time = opt_start_time_dt.isoformat()
 
         consumer_config = ConsumerConfig(
             ack_policy=AckPolicy.EXPLICIT,
             flow_control=True,
             durable_name=_SVC_NAME,
             idle_heartbeat=30,
+            # The opt_start_time is said to be int | None, but it is actually a string
+            opt_start_time=opt_start_time,  # type: ignore
         )
 
         sub = await self._js.subscribe(
