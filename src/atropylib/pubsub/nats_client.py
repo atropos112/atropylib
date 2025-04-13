@@ -3,7 +3,7 @@ Example usage
 
 async def main():
     # Example usage
-    nats_client = NATsClient()
+    nats_client = NATSClient()
 
     message = Message(
         source="example_source",
@@ -71,12 +71,6 @@ from pydantic import BaseModel, PrivateAttr
 from atropylib.pubsub.message import Message
 
 _SVC_NAME = os.getenv("ATRO_SVC_NAME", "")
-_DEFAULT_CONSUMER_CONFIG = ConsumerConfig(
-    ack_policy=AckPolicy.EXPLICIT,
-    flow_control=True,
-    durable_name=_SVC_NAME,
-    idle_heartbeat=30,
-)
 
 
 async def get_nats_client(nats_url: str | None = None) -> NATS:
@@ -134,11 +128,17 @@ class NATSClient(BaseModel):
         """
         return self._nc.jetstream()
 
-    async def publish(self, subject: str, message: Message) -> None:
+    async def publish(self, subject: str, message: Message, create_stream_if_not_exist: bool = True) -> None:
         """
-        Publish a message to a subject.
+        Publish a message to a subject in NATS JetStream.
+
+        If `create_stream_if_not_exist` is True, it will create the stream if it does not exist. This causes a
+        performance hit of ~1ms on the first publish only.
         """
-        if subject not in self._added_streams:
+        if create_stream_if_not_exist and subject not in self._added_streams:
+            # INFO: The stream may not exist. We try to create it by calling add_stream. This is only really
+            # needed on the first publish. After that, we can assume the stream exists.
+            # The cost of that is approximately 1ms, and that is only on the first publish.
             await self._js.add_stream(name=subject, subjects=[subject])
             self._added_streams.add(subject)
 
@@ -154,13 +154,34 @@ class NATSClient(BaseModel):
     async def subscribe(
         self,
         subject: str,
-        deliver_policy: DeliverPolicy = DeliverPolicy.NEW,
+        deliver_policy: DeliverPolicy | None = None,
     ) -> AsyncGenerator[Message, Any]:
-        global _DEFAULT_CONSUMER_CONFIG, _SVC_NAME
+        """
+        Subscribe to a subject in NATS JetStream and yield messages.
+
+        If you want
+        - all messages, set `deliver_policy` to DeliverPolicy.ALL.
+        - new messages only, set `deliver_policy` to DeliverPolicy.NEW.
+        - messages starting from a specific time, set `deliver_policy` to
+          DeliverPolicy.BY_START_TIME and `start_time` to the desired start time.
+
+        Coundn't get BY_START_TIME to work. If set timestamp must be provided in the
+        ConsumerConfig, but when provided it outputs an error:
+        "invalid JSON: Time.UnmarshalJSON: input is not a JSON string"
+        """
+        global _SVC_NAME
+
+        consumer_config = ConsumerConfig(
+            ack_policy=AckPolicy.EXPLICIT,
+            flow_control=True,
+            durable_name=_SVC_NAME,
+            idle_heartbeat=30,
+        )
+
         sub = await self._js.subscribe(
             subject=subject,
             durable=_SVC_NAME,
-            config=_DEFAULT_CONSUMER_CONFIG,
+            config=consumer_config,
             manual_ack=True,
             flow_control=True,
             deliver_policy=deliver_policy,
