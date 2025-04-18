@@ -4,7 +4,9 @@
   config,
   ...
 }: let
-  helpScript = ''
+  # writeShellScript here is identity to cause treesitter to format bash scripts correctly.
+  writeShellScript = name: script: script;
+  helpScript = writeShellScript "help" ''
     echo
     echo 🦾 Useful project scripts:
     echo 🦾
@@ -12,12 +14,11 @@
     ${lib.generators.toKeyValue {} (lib.mapAttrs (_: value: value.description) config.scripts)}
     EOF
     echo
-
   '';
 in {
   env = {
     ATRO_NATS_URL = "nats://nats:4222";
-    ATRO_SERVICE_NAME = "testing";
+    ATRO_SERVICE_NAME = "atropylib";
   };
 
   pre-commit = {
@@ -28,7 +29,7 @@ in {
 
       ruff = {
         enable = true;
-        entry = "ruff check --fix";
+        entry = writeShellScript "ruff-check" "ruff check --fix";
       };
       mypy = {
         enable = true;
@@ -38,13 +39,13 @@ in {
     };
   };
 
-  enterTest = ''
+  enterTest = writeShellScript "test" ''
     pytest --cov=./ --cov-report=xml --cache-clear --new-first --failed-first --verbose
   '';
 
   scripts = {
     run-docs = {
-      exec = ''
+      exec = writeShellScript "run-docs" ''
         mkdocs serve
       '';
       description = "Run the documentation server";
@@ -72,8 +73,5 @@ in {
     };
   };
 
-  enterShell = ''
-    uv sync --quiet
-    ${helpScript}
-  '';
+  enterShell = helpScript;
 }
