@@ -46,7 +46,8 @@ in {
   scripts = {
     run-docs = {
       exec = writeShellScript "run-docs" ''
-        mkdocs serve
+        cd docs
+        ${pkgs.uv}/bin/uv run mkdocs serve -a 0.0.0.0:8000
       '';
       description = "Run the documentation server";
     };
