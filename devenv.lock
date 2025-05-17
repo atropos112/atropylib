@@ -20,10 +20,10 @@
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1744902663,
+        "lastModified": 1747482870,
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "379980fb42ca804f7c3220d978d9da86360a68fa",
+        "rev": "7ea7b397c958ffa14c6a26e73d88620bc6e3d83d",
         "type": "github"
       },
       "original": {
@@ -36,10 +36,10 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1733328505,
+        "lastModified": 1747046372,
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "rev": "9100a0f413b0c601e0533d1d94ffd501ce2e7885",
         "type": "github"
       },
       "original": {
@@ -72,10 +72,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1742649964,
+        "lastModified": 1747372754,
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "dcf5072734cb576d2b0c59b2ac44f5050b5eac82",
+        "rev": "80479b6ec16fefd9c1db3ea13aeb038c60530f46",
         "type": "github"
       },
       "original": {

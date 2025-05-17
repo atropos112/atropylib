@@ -12,7 +12,7 @@ in {
     ATRO_SERVICE_NAME = "atropylib";
   };
 
-  pre-commit = {
+  git-hooks = {
     hooks = {
       inherit (inputs.atrolib.lib.devenv.git-hooks.hooks) gitleaks markdownlint;
       check-merge-conflicts.enable = true;
