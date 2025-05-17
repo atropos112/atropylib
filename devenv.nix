@@ -1,20 +1,11 @@
 {
   pkgs,
-  lib,
   config,
+  inputs,
   ...
 }: let
-  # writeShellScript here is identity to cause treesitter to format bash scripts correctly.
-  writeShellScript = name: script: script;
-  helpScript = writeShellScript "help" ''
-    echo
-    echo 🦾 Useful project scripts:
-    echo 🦾
-    ${pkgs.gnused}/bin/sed -e 's| |••|g' -e 's|=| |' <<EOF | ${pkgs.util-linuxMinimal}/bin/column -t | ${pkgs.gnused}/bin/sed -e 's|^|🦾 |' -e 's|••| |g'
-    ${lib.generators.toKeyValue {} (lib.mapAttrs (_: value: value.description) config.scripts)}
-    EOF
-    echo
-  '';
+  inherit (inputs.atrolib.lib) listScripts writeShellScript;
+  inherit (inputs.atrolib.lib.devenv.scripts) help runDocs buildDocs;
 in {
   env = {
     ATRO_NATS_URL = "nats://nats:4222";
@@ -23,6 +14,7 @@ in {
 
   pre-commit = {
     hooks = {
+      inherit (inputs.atrolib.lib.devenv.git-hooks.hooks) gitleaks markdownlint;
       check-merge-conflicts.enable = true;
       check-added-large-files.enable = true;
       editorconfig-checker.enable = true;
@@ -44,13 +36,9 @@ in {
   '';
 
   scripts = {
-    run-docs = {
-      exec = writeShellScript "run-docs" ''
-        cd docs
-        ${pkgs.uv}/bin/uv run mkdocs serve -a 0.0.0.0:8000
-      '';
-      description = "Run the documentation server";
-    };
+    help = help config.scripts;
+    run-docs = runDocs "docs";
+    build-docs = buildDocs "docs";
   };
 
   languages.python = {
@@ -74,5 +62,5 @@ in {
     };
   };
 
-  enterShell = helpScript;
+  enterShell = listScripts config.scripts;
 }
