@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository != 'atropos112/template-python-pkg'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - uses: actions/cache@v4
         name: Define a cache for the virtual environment based on the dependencies lock file
